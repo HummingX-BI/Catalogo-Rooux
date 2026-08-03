@@ -149,8 +149,13 @@ function renderProducts(productsToRender) {
         
         card.style.cursor = 'pointer';
 
-        const imgSrc = `imgs/img${perfume.id}.webp`;
-        const imgHTML = `<img src="${imgSrc}" alt="${perfume.name}" class="product-img" loading="lazy" onerror="this.onerror=null; this.outerHTML='<div class=\\'product-img-placeholder\\'></div>';">`;
+        const imgSrc = `imgs/img${perfume.id}_thumb.webp`;
+        const imgHTML = `
+            <div class="skeleton-loader"></div>
+            <img src="${imgSrc}" alt="${perfume.name}" class="product-img" loading="lazy" 
+                 onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none';"
+                 onerror="this.onerror=null; this.previousElementSibling.style.display='none'; this.outerHTML='<div class=\\'product-img-placeholder\\'></div>';">
+        `;
 
         card.innerHTML = `
             <div class="product-img-wrapper">
@@ -243,8 +248,14 @@ function openModal(perfume) {
     // Modal image
     const modalImageContainer = document.getElementById('modalImageContainer');
     if (modalImageContainer) {
+        modalImageContainer.style.position = 'relative';
         const imgSrc = `imgs/img${perfume.id}.webp`;
-        modalImageContainer.innerHTML = `<img src="${imgSrc}" alt="${perfume.name}" class="modal-product-img" onerror="this.onerror=null; this.outerHTML='<div class=\\'product-img-placeholder\\'></div>';">`;
+        modalImageContainer.innerHTML = `
+            <div class="skeleton-loader"></div>
+            <img src="${imgSrc}" alt="${perfume.name}" class="modal-product-img product-img" 
+                 onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none';"
+                 onerror="this.onerror=null; this.previousElementSibling.style.display='none'; this.outerHTML='<div class=\\'product-img-placeholder\\'></div>';">
+        `;
     }
     
     // Update WA link for price
