@@ -163,11 +163,13 @@ h1, h2, h3, h4, .logo, .logo-footer {
     background-position: center;
     background-repeat: no-repeat;
     opacity: 0;
-    transition: opacity 1.5s ease-in-out;
+    transform: scale(1);
+    transition: opacity 1.5s ease-in-out, transform 6s linear;
 }
 
 .hero-slide.active {
     opacity: 1;
+    transform: scale(1.15);
 }
 
 /* Imágenes por defecto (Desktop) */
@@ -321,11 +323,27 @@ h1, h2, h3, h4, .logo, .logo-footer {
     display: flex;
     flex-direction: column;
     position: relative;
-    transition: var(--transition);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+    border-radius: 8px;
 }
 
-.product-card:hover .product-img-wrapper {
-    opacity: 0.9;
+@media (hover: hover) and (pointer: fine) {
+    .product-card:hover {
+        transform: translateY(-8px);
+    }
+    
+    .product-card:hover .product-img {
+        transform: scale(1.08);
+    }
+}
+
+/* Efecto de tap (toque) en móviles */
+.product-card:active {
+    transform: translateY(-4px);
+}
+
+.product-card:active .product-img {
+    transform: scale(1.05);
 }
 
 .product-img-wrapper {
@@ -346,7 +364,8 @@ h1, h2, h3, h4, .logo, .logo-footer {
     height: 100%;
     object-fit: contain;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transform: scale(1);
+    transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
     z-index: 2;
     position: relative;
 }

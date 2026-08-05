@@ -1,19 +1,19 @@
-const BUSINESS_NAME = ""; 
-const WHATSAPP_NUMBER = "525564520883"; 
+const BUSINESS_NAME = "";
+const WHATSAPP_NUMBER = "525564520883";
 
 // DOM Elements
 document.addEventListener("DOMContentLoaded", () => {
     // Rellenar espacios en blanco
     const logos = document.querySelectorAll('.logo, .logo-footer');
     logos.forEach(logo => {
-        if(BUSINESS_NAME) logo.textContent = BUSINESS_NAME;
+        if (BUSINESS_NAME) logo.textContent = BUSINESS_NAME;
     });
 
     const waLinks = [
         document.getElementById('floatingWhatsapp'),
         document.getElementById('footerWhatsappLink')
     ];
-    
+
     waLinks.forEach(link => {
         if (link && WHATSAPP_NUMBER) {
             link.href = `https://wa.me/${WHATSAPP_NUMBER}`;
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function setupHeroSlider() {
     const slides = document.querySelectorAll('.hero-slide');
     if (slides.length === 0) return;
-    
+
     let currentSlide = 0;
     setInterval(() => {
         slides[currentSlide].classList.remove('active');
@@ -120,24 +120,24 @@ const perfumes = [
 function renderProducts(productsToRender) {
     const grid = document.getElementById('productsGrid');
     const emptyState = document.getElementById('emptyState');
-    
+
     grid.innerHTML = '';
-    
+
     if (productsToRender.length === 0) {
         grid.classList.add('hidden');
         emptyState.classList.remove('hidden');
         return;
     }
-    
+
     grid.classList.remove('hidden');
     emptyState.classList.add('hidden');
 
     productsToRender.forEach(perfume => {
-        const message = encodeURIComponent(`Hola, me interesa el perfume ${perfume.name}`);
-        const priceMessage = encodeURIComponent(`Hola, ¿me podrías dar información del precio del perfume ${perfume.name}?`);
+        const message = encodeURIComponent(`Hola, me gustaría recibir información sobre precios, tamaños y disponibilidad del perfume ${perfume.name}.`);
+        const priceMessage = encodeURIComponent(`Hola, me gustaría recibir información sobre precios, tamaños y disponibilidad del perfume ${perfume.name}.`);
         const waUrl = WHATSAPP_NUMBER ? `https://wa.me/${WHATSAPP_NUMBER}?text=${message}` : '#';
         const waPriceUrl = WHATSAPP_NUMBER ? `https://wa.me/${WHATSAPP_NUMBER}?text=${priceMessage}` : '#';
-        
+
         const card = document.createElement('div');
         card.className = 'product-card';
         // Add click listener to open modal, except if they click the WA button directly
@@ -146,7 +146,7 @@ function renderProducts(productsToRender) {
                 openModal(perfume);
             }
         });
-        
+
         card.style.cursor = 'pointer';
 
         const imgSrc = `imgs/img${perfume.id}_thumb.webp`;
@@ -164,8 +164,8 @@ function renderProducts(productsToRender) {
             <div class="product-info">
                 <span class="product-category">${perfume.type}</span>
                 <h3 class="product-name">${perfume.name}</h3>
-                <span class="product-volume">100 ml / 3.4 oz</span>
-                <a href="${waPriceUrl}" class="product-price-link" target="_blank" rel="noopener noreferrer">Consultar Precio</a>
+                <span class="product-volume">Disponible en múltiples presentaciones</span>
+                <a href="${waPriceUrl}" class="product-price-link" target="_blank" rel="noopener noreferrer">Consultar</a>
                 <a href="${waUrl}" class="btn-whatsapp" ${WHATSAPP_NUMBER ? 'target="_blank" rel="noopener noreferrer"' : 'onclick="alert(\'Número de WhatsApp no configurado aún.\'); return false;"'}>
                     Pedir por WhatsApp
                 </a>
@@ -177,16 +177,16 @@ function renderProducts(productsToRender) {
 
 function setupFilters() {
     const filterBtns = document.querySelectorAll('.filter-btn');
-    
+
     filterBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             filterBtns.forEach(b => b.classList.remove('active'));
             e.target.classList.add('active');
-            
+
             document.getElementById('searchInput').value = '';
-            
+
             const filterValue = e.target.getAttribute('data-filter');
-            
+
             if (filterValue === 'all') {
                 renderProducts(perfumes);
             } else {
@@ -199,21 +199,21 @@ function setupFilters() {
 
 function setupSearch() {
     const searchInput = document.getElementById('searchInput');
-    
+
     searchInput.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase().trim();
-        
-        if(searchTerm !== '') {
+
+        if (searchTerm !== '') {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         } else {
             document.querySelector('[data-filter="all"]').classList.add('active');
         }
-        
-        const filtered = perfumes.filter(p => 
-            p.name.toLowerCase().includes(searchTerm) || 
+
+        const filtered = perfumes.filter(p =>
+            p.name.toLowerCase().includes(searchTerm) ||
             p.type.toLowerCase().includes(searchTerm)
         );
-        
+
         renderProducts(filtered);
     });
 }
@@ -230,7 +230,7 @@ function setupModal() {
 
     closeBtn.addEventListener('click', closeModal);
     overlay.addEventListener('click', closeModal);
-    
+
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
             closeModal();
@@ -240,7 +240,7 @@ function setupModal() {
 
 function openModal(perfume) {
     const modal = document.getElementById('productModal');
-    
+
     // Fill data
     document.getElementById('modalCategory').textContent = perfume.type;
     document.getElementById('modalName').textContent = perfume.name;
@@ -257,18 +257,18 @@ function openModal(perfume) {
                  onerror="this.onerror=null; this.previousElementSibling.style.display='none'; this.outerHTML='<div class=\\'product-img-placeholder\\'></div>';">
         `;
     }
-    
+
     // Update WA link for price
-    const priceMessage = encodeURIComponent(`Hola, ¿me podrías dar información del precio del perfume ${perfume.name}?`);
+    const priceMessage = encodeURIComponent(`Hola, me gustaría recibir información sobre precios, tamaños y disponibilidad del perfume ${perfume.name}.`);
     document.getElementById('modalPrice').innerHTML = `<a href="https://wa.me/${WHATSAPP_NUMBER}?text=${priceMessage}" target="_blank" rel="noopener noreferrer" class="product-price-link">Consultar Precio</a>`;
-    
+
     document.getElementById('modalNotes').textContent = perfume.notes;
     document.getElementById('modalDesc').textContent = perfume.description;
-    
+
     // Update WA link
     const waBtn = document.getElementById('modalWaBtn');
-    const message = encodeURIComponent(`Hola, me interesa el perfume ${perfume.name}`);
-    
+    const message = encodeURIComponent(`Hola, me gustaría recibir información sobre precios, tamaños y disponibilidad del perfume ${perfume.name}.`);
+
     if (WHATSAPP_NUMBER) {
         waBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
         waBtn.onclick = null;
@@ -279,7 +279,7 @@ function openModal(perfume) {
             alert("Número de WhatsApp pendiente de configurar.");
         };
     }
-    
+
     // Show modal and prevent body scrolling
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
