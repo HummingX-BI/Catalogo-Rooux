@@ -33,7 +33,27 @@ document.addEventListener("DOMContentLoaded", () => {
     setupSearch();
     setupModal();
     setupHeroSlider();
+    setupMobileMenu();
 });
+
+function setupMobileMenu() {
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
+    
+    if (mobileMenuBtn && navLinks) {
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Cerrar el menú al hacer clic en cualquier enlace
+        const links = navLinks.querySelectorAll('.nav-link');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+    }
+}
 
 function setupHeroSlider() {
     const slides = document.querySelectorAll('.hero-slide');
@@ -260,7 +280,7 @@ function openModal(perfume) {
 
     // Update WA link for price
     const priceMessage = encodeURIComponent(`Hola, me gustaría recibir información sobre precios, tamaños y disponibilidad del perfume ${perfume.name}.`);
-    document.getElementById('modalPrice').innerHTML = `<a href="https://wa.me/${WHATSAPP_NUMBER}?text=${priceMessage}" target="_blank" rel="noopener noreferrer" class="product-price-link">Consultar Precio</a>`;
+    document.getElementById('modalPrice').innerHTML = `<a href="https://wa.me/${WHATSAPP_NUMBER}?text=${priceMessage}" target="_blank" rel="noopener noreferrer" class="product-price-link">Consultar</a>`;
 
     document.getElementById('modalNotes').textContent = perfume.notes;
     document.getElementById('modalDesc').textContent = perfume.description;

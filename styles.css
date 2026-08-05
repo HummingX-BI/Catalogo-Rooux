@@ -104,6 +104,15 @@ h1, h2, h3, h4, .logo, .logo-footer {
     min-width: 150px;
 }
 
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 5px;
+}
+
 .nav-links a {
     text-decoration: none;
     color: var(--text-secondary);
@@ -728,8 +737,31 @@ h1, h2, h3, h4, .logo, .logo-footer {
         font-size: 1.1rem;
     }
     
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
     .nav-links {
-        display: none; /* Simple mobile navbar */
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-color);
+        border-bottom: 1px solid var(--border-color);
+        padding: 20px 0;
+        z-index: 1000;
+        text-align: center;
+    }
+    
+    .nav-links.active {
+        display: flex;
+    }
+    
+    .nav-links a {
+        margin: 15px 0;
+        font-size: 1.1rem;
     }
     
     .floating-whatsapp {
